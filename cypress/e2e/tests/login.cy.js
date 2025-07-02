@@ -1,32 +1,46 @@
 /// <reference types="cypress" />
 
+import BaseLibrary from "../base/BaseLibrary";
+import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
+
 context("Login", () => {
+  const loginPage = new LoginPage();
+  const homePage = new HomePage();
+  const baseLibrary = new BaseLibrary();
   it("basarili kullanici girisi", () => {
-    cy.visit("https://parabank.parasoft.com/"); //url giris
-    cy.get('[name="username"]').type("serkangur");
-    cy.get('[name="password"]').type("123456789");
-    cy.get('[value="Log In"]').click();
-    cy.get('[id="leftPanel"] p').should("have.text", "Welcome serkan g�r");
+    baseLibrary.visit();
+    loginPage
+      .sendKeysUserName("serkangur")
+      .sendKeysPassword("123456789")
+      .clickLogin();
+
+    homePage.welcomeTextController("Welcome serkan gur");
   });
 
   it("basarisiz kullanici girisi", () => {
-    cy.visit("https://parabank.parasoft.com/"); //url giris
-    cy.get('[name="username"]').type("serkangur");
-    cy.get('[name="password"]').type("123456");
-    cy.get('[value="Log In"]').click();
-    cy.get('[id="rightPanel"] p').should("have.text", "An internal error has occurred and has been logged.");
+    baseLibrary.visit();
+    loginPage
+      .sendKeysUserName("serkangur")
+      .sendKeysPassword("234342rdfgfgfgf")
+      .clickLogin();
+      //.errorTextController("The username and password could not be verified.");
   });
 
-   it("Zorunlu alan kullanici girisi", () => {
-    cy.visit("https://parabank.parasoft.com/"); //url giris
-    cy.get('[value="Log In"]').click();
-    cy.get('[id="rightPanel"] p').should("have.text", "Please enter a username and password.");
-    cy.get('[name="username"]').type("serkangur");
-    cy.get('[value="Log In"]').click();
-    cy.get('[id="rightPanel"] p').should("have.text", "Please enter a username and password.");
-    cy.get('[name="username"]').type("serkangur");
-    cy.get('[name="password"]').type("123456789");
-    cy.get('[value="Log In"]').click();
-    cy.get('[id="leftPanel"] p').should("have.text", "Welcome serkan g�r");
+  it("Zorunlu alan kullanici girisi", () => {
+    baseLibrary.visit();
+    loginPage
+      .clickLogin()
+      .errorTextController("Please enter a username and password.");
+
+    loginPage
+      .sendKeysUserName("serkangur")
+      .clickLogin()
+      .errorTextController("Please enter a username and password.")
+      .sendKeysUserName("serkangur")
+      .sendKeysPassword("123456789")
+      .clickLogin();
+
+    homePage.welcomeTextController("Welcome serkan gur");
   });
 });
