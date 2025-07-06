@@ -35,4 +35,36 @@ context("Register", () => {
 
 
   });
+
+
+it.only("parola karşılaştırma kontrol", () => {
+  
+    var usernameRandom = 'username' + baseLibrary.getNumberRandom();
+
+    baseLibrary.visit();
+    homePage.clickToRegisterButton();
+    registerPage.sendKeysFirstName("serkan")
+    .sendKeysLastName("gur")
+    .sendKeysStreet("ankara")
+    .sendKeysCity("ankara")
+    .sendKeysState("ankara")
+    .sendKeysZipCode("23100")
+    .sendKeysPhoneNumber("05315644578")
+    .sendKeysSSN("asd")
+    .sendKeysUserName(usernameRandom)
+    .sendKeysPassword("123456789")
+    .sendKeysRepeatedPassword("asd")
+    .clickToRegister()
+    .repeatedMessageErrorControl()
+    .sendKeysPassword("123456789")
+    .sendKeysRepeatedPassword("123456789")
+    .clickToRegister(); 
+  
+    
+    homePage.welcomeTextController("Welcome serkan gur");
+    
+
+  });
+
+
 });

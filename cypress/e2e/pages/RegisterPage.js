@@ -51,12 +51,17 @@ sendKeysPassword(number){
 }
 
 sendKeysRepeatedPassword(number){
-     cy.get('[id="repeatedPassword"]').type("123456789");
+     cy.get('[id="repeatedPassword"]').type(number);
     return this;
 }
 
 clickToRegister(){
      cy.get('[value="Register"]').click();
+    return this;
+}
+
+repeatedMessageErrorControl(){
+    cy.get('[id="repeatedPassword.errors"]').should('have.text',"Passwords did not match.");
     return this;
 }
 

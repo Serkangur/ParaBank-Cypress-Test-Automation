@@ -5,6 +5,8 @@ welcomeTextController(text){
     return this;
 }
 
+
+
 clickToRegisterButton(){
     cy.get('[href="register.htm"]').click();
 }
