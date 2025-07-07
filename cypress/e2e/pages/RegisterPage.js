@@ -65,6 +65,11 @@ repeatedMessageErrorControl(){
     return this;
 }
 
+errorTextController(index,value){
+    cy.get('[class="error"]').eq(index).should('have.text',value);
+    return this;
+}
+
 }
 
 export default RegisterPage;
